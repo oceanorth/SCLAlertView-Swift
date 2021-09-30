@@ -180,9 +180,9 @@ open class SCLAlertView: UIViewController {
           /// The subView's horizontal margin.
           public var horizontal: CGFloat = 12
         
-          public init(titleTop: CGFloat = 30,
+          public init(titleTop: CGFloat = 32,
                       textViewBottom: CGFloat = 12,
-                      buttonSpacing: CGFloat = 10,
+                      buttonSpacing: CGFloat = 16,
                       textFieldSpacing: CGFloat = 15,
                       bottom: CGFloat = 14,
                       horizontal: CGFloat = 12) {
@@ -351,7 +351,7 @@ open class SCLAlertView: UIViewController {
         // Content View
         contentView.layer.cornerRadius = appearance.contentViewCornerRadius
         contentView.layer.masksToBounds = true
-        contentView.layer.borderWidth = 0.5
+        contentView.layer.borderWidth = 2
         contentView.addSubview(labelTitle)
         contentView.addSubview(viewText)
         // Circle View
