@@ -305,6 +305,7 @@ open class SCLAlertView: UIViewController {
     var contentView = UIView()
     var circleBG = UIView(frame:CGRect(x:0, y:0, width:kCircleHeightBackground, height:kCircleHeightBackground))
     var circleView = UIView()
+    var circleBottomHideBorderRect = UIView()
     var circleIconView : UIView?
     var timeout: SCLTimeoutConfiguration?
     var showTimeoutTimer: Timer?
@@ -357,12 +358,14 @@ open class SCLAlertView: UIViewController {
         // Circle View
         circleBG.backgroundColor = appearance.circleBackgroundColor
         circleBG.layer.cornerRadius = circleBG.frame.size.height / 2
-        circleBG.layer.borderWidth = 2
         baseView.addSubview(circleBG)
         circleBG.addSubview(circleView)
         let x = (kCircleHeightBackground - appearance.kCircleHeight) / 2
         circleView.frame = CGRect(x:x, y:x+appearance.kCircleTopPosition, width:appearance.kCircleHeight, height:appearance.kCircleHeight)
+        circleView.layer.borderWidth = 2
         circleView.layer.cornerRadius = circleView.frame.size.height / 2
+        circleBG.addSubview(circleBottomHideBorderRect)
+        circleBottomHideBorderRect.frame = CGRect(x: x, y: x+appearance.kCircleTopPosition + appearance.kCircleHeight / 2 + 2, width: appearance.kCircleHeight, height: appearance.kCircleHeight / 2)
         // Title
         labelTitle.numberOfLines = 0
         labelTitle.textAlignment = .center
@@ -385,7 +388,7 @@ open class SCLAlertView: UIViewController {
         labelTitle.textColor = appearance.titleColor
         viewText.textColor = appearance.subTitleColor
         contentView.layer.borderColor = appearance.contentViewBorderColor.cgColor
-        circleBG.layer.borderColor = appearance.contentViewBorderColor.cgColor
+        circleView.layer.borderColor = appearance.contentViewBorderColor.cgColor
         //Gesture Recognizer for tapping outside the textinput
         if appearance.disableTapGesture == false {
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(SCLAlertView.tapped(_:)))
@@ -846,6 +849,7 @@ open class SCLAlertView: UIViewController {
         
         // Alert view colour and images
         circleView.backgroundColor = viewColor
+        circleBottomHideBorderRect.backgroundColor = viewColor
         
         // Spinner / icon
         if style == .wait {
@@ -862,9 +866,9 @@ open class SCLAlertView: UIViewController {
                 circleIconView = UIImageView(image: iconImage!)
             }
         }
-        circleView.addSubview(circleIconView!)
-        let x = (appearance.kCircleHeight - appearance.kCircleIconHeight) / 2
-        circleIconView!.frame = CGRect( x: x, y: x, width: appearance.kCircleIconHeight, height: appearance.kCircleIconHeight)
+        circleBG.addSubview(circleIconView!)
+        let x = (kCircleHeightBackground - appearance.kCircleHeight) / 2 + (appearance.kCircleHeight - appearance.kCircleIconHeight) / 2
+        circleIconView!.frame = CGRect(x: x, y: x + appearance.kCircleTopPosition, width: appearance.kCircleIconHeight, height: appearance.kCircleIconHeight)
         circleIconView?.layer.masksToBounds = true
         
         for txt in inputs {
